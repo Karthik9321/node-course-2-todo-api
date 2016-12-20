@@ -1,5 +1,6 @@
 var express = require('express');
 var bodyParser = require('body-parser');
+const {ObjectID}=require('mongodb');
 
 var {mongoose}=require('./db/mongoose');
 var{Todo} = require('./models/todo');
@@ -31,21 +32,39 @@ app.get('/todos', (req,res)=>{
 });
 });
 
-
-app.post('/user', (req,res)=>{
-    var user=new User({
-        name: req.body.name,
-        email:req.body.email,
-        age: req.body.age
-        
-    });
+app.get('/todos/:id', (req,res)=>{
+    var id = req.params.id;
     
-    user.save().then((docs)=>{
-        res.send(docs);
+    if(!ObjectID.isValid(id)){
+        return res.status(404).send();
+    }
+    
+    Todo.findById(id).then((todo)=>{
+        if(!todo){
+            return res.status(404).send();
+        }
+
+        res.send({todo});
     }).catch((e)=>{
-        res.status(400).send(e);
-    });
+        res.status(400).send();
+    })
+    
 });
+//
+//app.post('/user', (req,res)=>{
+//    var user=new User({
+//        name: req.body.name,
+//        email:req.body.email,
+//        age: req.body.age
+//        
+//    });
+//    
+//    user.save().then((docs)=>{
+//        res.send(docs);
+//    }).catch((e)=>{
+//        res.status(400).send(e);
+//    });
+//});
 
 app.listen(3000, ()=>{
     console.log('Started on port 3000');
