@@ -14,6 +14,7 @@ app.post('/todos', (req,res)=>{
     });
 
 
+    
 todo.save().then((docs)=>{
     res.send(docs);
 },(e)=>{
@@ -28,6 +29,22 @@ app.get('/todos', (req,res)=>{
     }).catch((e)=>{
     res.status(400).send(e);
 });
+});
+
+
+app.post('/user', (req,res)=>{
+    var user=new User({
+        name: req.body.name,
+        email:req.body.email,
+        age: req.body.age
+        
+    });
+    
+    user.save().then((docs)=>{
+        res.send(docs);
+    }).catch((e)=>{
+        res.status(400).send(e);
+    });
 });
 
 app.listen(3000, ()=>{
