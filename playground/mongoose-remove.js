@@ -13,3 +13,5 @@ Todo.findByIdAndRemove('asdf').then((todo)=>{
     
 
 })
+
+//findOneAndRemove
