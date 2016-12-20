@@ -54,21 +54,22 @@ app.get('/todos/:id', (req,res)=>{
     })
     
 });
-//
-//app.post('/user', (req,res)=>{
-//    var user=new User({
-//        name: req.body.name,
-//        email:req.body.email,
-//        age: req.body.age
-//        
-//    });
-//    
-//    user.save().then((docs)=>{
-//        res.send(docs);
-//    }).catch((e)=>{
-//        res.status(400).send(e);
-//    });
-//});
+app.delete('/todos/:id', (req,res)=>{
+    var id= req.params.id;
+    
+    if(!ObjectID.isValid(id)){
+        return res.status(404).send();
+    }
+    
+    Todo.findByIdAndRemove(id).then((del)=>{
+        if(!del){
+            return res.status(404).send();
+        }
+        res.send({del});
+    }).catch((e)=>{
+        res.status(404).send();
+    })
+})
 
 app.listen(port, ()=>{
     console.log('Started on port: ' ,port);
