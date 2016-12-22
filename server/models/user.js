@@ -31,17 +31,17 @@ var UserSchema = new mongoose.Schema({
     
     
 //    phone:{
-//        type:Number,
+//        type:String,
 //        required:true,
 //        trim:true,
 //        validate: {
 //            validator: (value)=>{
-//            return validator.isMobilePhone(value+'', 'en-IN');
+//            return /\d{2}-\d{10}/.test(value);
 //        },
 //            message: '{VALUE} is not a valid phone number'
 //        }
 //    },
-    
+//    
     password: {
         type: String,
         required: true,
